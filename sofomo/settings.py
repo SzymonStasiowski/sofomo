@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'geolocation.apps.GeolocationConfig',
+    'rest_framework',
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -77,8 +79,12 @@ WSGI_APPLICATION = 'sofomo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dv12uinho412d',
+        'USER': 'yfuiyjrlpdvpzn',
+        'PASSWORD': '3ac8aef7b9bad157675139b6e67d7551f83aee3655c9775eff098bf9ace6845e',
+        'HOST': 'ec2-46-137-91-216.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
