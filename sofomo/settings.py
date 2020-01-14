@@ -30,7 +30,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'project-for-sofomo.herokuapp.com',
-    '127.0.0.1',
 ]
 
 
