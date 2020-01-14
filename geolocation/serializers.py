@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Location
+from .geolocation import get_geolocation
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,14 +18,8 @@ class LocationSerializer(serializers.ModelSerializer):
                   'latitude',
                   'longitude']
 
-class NewLocationSerializer(serializers.Serializer):
-    #url = serializers.URLField(required=False, default=None)
+class InputSerializer(serializers.Serializer):
+    link = serializers.RegexField(regex='[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)',
+                                  required=False,
+                                  default=None)
     ip = serializers.IPAddressField(required=False, default=None)
-
-    # def validate(self, data):
-    #     if data['url'] is not None and data['ip'] is not None:
-    #         raise serializers.ValidationError("You must provide either a full url or an ip address.")
-    #     elif data['url'] is None and data['ip'] is None:
-    #         raise serializers.ValidationError("You must provide either a full url or an ip address.")
-    #     else:
-    #         return data

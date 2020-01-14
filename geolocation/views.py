@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from .models import Location
-from .serializers import LocationSerializer, NewLocationSerializer
+from .serializers import LocationSerializer, InputSerializer
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-import json
+from rest_framework.permissions import IsAuthenticated
 from .geolocation import get_geolocation
 
 # Create your views here.
-class LocationList(APIView):
+
+class LocationView(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         locations = Location.objects.all()
@@ -16,13 +19,12 @@ class LocationList(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        input_serializer = NewLocationSerializer(data=request.data)
+        input_serializer = InputSerializer(data=request.data)
         if input_serializer.is_valid():
-            serializer = LocationSerializer(data=get_geolocation(input_serializer.validated_data['ip']))
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
-        else:
-            return Response(input_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            data = get_geolocation(next(iter(input_serializer.validated_data)))
+            model_serializer = LocationSerializer(data=data)
+            if model_serializer.is_valid():
+                model_serializer.save()
+                return Response(model_serializer.data, status=status.HTTP_201_CREATED)
+            return Response(model_serializer.errors, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        return Response(input_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

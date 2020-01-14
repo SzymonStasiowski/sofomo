@@ -8,5 +8,3 @@ def get_geolocation(input):
     response = requests.get(url)
 
     return response.json()
-
-print(get_geolocation('89.64.47.10'))
