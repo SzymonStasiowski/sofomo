@@ -19,7 +19,7 @@ class LocationSerializer(serializers.ModelSerializer):
                   'longitude']
 
 class InputSerializer(serializers.Serializer):
-    link = serializers.RegexField(regex='[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)',
+    link = serializers.RegexField(regex='(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',
                                   required=False,
                                   default=None)
     ip = serializers.IPAddressField(required=False, default=None)
