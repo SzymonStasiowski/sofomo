@@ -22,4 +22,3 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('geolocation.urls'))
 ]
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
